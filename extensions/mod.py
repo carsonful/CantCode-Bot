@@ -34,23 +34,6 @@ async def purge_messages(ctx: lightbulb.Context) -> None:
     await asyncio.sleep(5)
     await resp.delete()
 
-@mod_plugin.command
-@lightbulb.add_checks(
-    lightbulb.has_guild_permissions(hikari.Permissions.MANAGE_MESSAGES),
-    lightbulb.bot_has_guild_permissions(hikari.Permissions.MANAGE_MESSAGES)
-)
-@lightbulb.option(
-    "number", "The number of messages to spam.", type=int, required=True
-)
-@lightbulb.command('spam','SPAM THE MF CHAT')
-@lightbulb.implements(lightbulb.SlashCommand)
-async def spam_msg(ctx: lightbulb.Context) -> None:
-    f = hikari.File('C:\\Users\\carso\\Desktop\\CARS-DISC-main\\awda.png')
-    for i in range(ctx.options.number):
-        await ctx.respond('L CORD + L LIFE + L OWNER')
-
-
-
 
 
 
