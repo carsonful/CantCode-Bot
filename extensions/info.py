@@ -2,6 +2,7 @@ from datetime import datetime
 import requests
 import hikari
 import lightbulb
+import miru
 
 info_plugin = lightbulb.Plugin("Info")
 
@@ -63,32 +64,36 @@ async def userinfo(ctx: lightbulb.Context) -> None:
 
     await ctx.respond(embed)
 
-
 @info_plugin.command
 @lightbulb.option(
-    "target", "The person you're trying to target", hikari.User, required=True\
-    )
+    "target", "The person's avatar you want", hikari.User, required=True
+)
 @lightbulb.command(
-    "coolcommand", "Carsons cool new command"
+    "av", "get the avatar of a user"
 )
 @lightbulb.implements(lightbulb.PrefixCommand, lightbulb.SlashCommand)
-
-async def coolcommand(ctx: lightbulb.Context) -> None:
+async def av(ctx: lightbulb.Context):
     target = ctx.get_guild().get_member(ctx.options.target or ctx.user)
-
-    embed =  (
+    if not target:
+        await ctx.respond("That user is not in the server.")
+        return 
+    embed = (
         hikari.Embed(
-            title=f"This sexy persons name is  - {target.display_name}",
+            title=f"`Avatar of` - {target.display_name}",
             description=f"ID: `{target.id}`",
-            colour=0x3B9DFF,
-            timestamp=datetime.now().astimezone(),
-        )
-        .set_footer(  
+            color=0x3b9DFF,
+            timestamp=datetime.now().astimezone()
+        )#.set_thumbnail(target.avatar_url or target.default_avatar_url)
+        .set_footer(
             text=f"Requested by {ctx.member.display_name}",
             icon=ctx.member.avatar_url or ctx.member.default_avatar_url,
         )
+        .set_image(target.avatar_url or target.default_avatar_url)
     )
     await ctx.respond(embed)
+
+
+
 
 
 @info_plugin.command
